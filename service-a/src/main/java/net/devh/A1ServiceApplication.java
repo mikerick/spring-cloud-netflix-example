@@ -33,6 +33,7 @@ import static springfox.documentation.builders.RequestHandlerSelectors.withClass
 @EnableSwagger2
 public class A1ServiceApplication {
 
+
     @Bean
     public Docket docket() {
         ApiSelectorBuilder apiSelectorBuilder = new Docket(DocumentationType.SWAGGER_2).select();

@@ -1,15 +1,17 @@
 package net.devh;
 
+import io.swagger.annotations.Api;
+import net.devh.services.GuidService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.netflix.hystrix.EnableHystrix;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-
-import io.swagger.annotations.Api;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
@@ -25,10 +27,17 @@ import static springfox.documentation.builders.RequestHandlerSelectors.withClass
  * Date: 2016/6/3
  */
 @EnableEurekaClient
+@EnableHystrix
 @SpringBootApplication
 @EnableDiscoveryClient
+@EnableFeignClients
 @EnableSwagger2
 public class B1ServiceApplication {
+
+    @Bean
+    public GuidService guidService() {
+        return GuidService.guid::toString;
+    }
 
     @Bean
     public Docket docket() {

@@ -7,6 +7,8 @@ import net.devh.feign.ServiceBClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.*;
+
 /**
  * User: Michael
  * Email: yidongnan@gmail.com
@@ -24,7 +26,14 @@ public class HystrixWrappedServiceBClient implements ServiceBClient {
         return serviceBClient.printServiceB();
     }
 
+    @Override
+    @HystrixCommand(fallbackMethod = "bServiceIsNotAccessible")
+    public String pingServiceB() {
+        return serviceBClient.pingServiceB();
+    }
+
     public String fallBackCall() {
         return "FAILED SERVICE B CALL! - FALLING BACK";
     }
+    public String bServiceIsNotAccessible() {return "Межсервисное взаимодействие развалилось";}
 }
